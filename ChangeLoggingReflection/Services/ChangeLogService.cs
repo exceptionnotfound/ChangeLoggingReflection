@@ -19,7 +19,7 @@ namespace ChangeLoggingReflection.Services
             var newProperties = newEntry.GetType().GetProperties();
         
             var dateChanged = DateTime.Now;
-            var primaryKey = (int)oldProperties.Where(x => Attribute.IsDefined(x, typeof(PrimaryKeyAttribute))).First().GetValue(oldEntry);
+            var primaryKey = (int)oldProperties.Where(x => Attribute.IsDefined(x, typeof(LoggingPrimaryKeyAttribute))).First().GetValue(oldEntry);
             var className = type.Name;
 
             foreach(var oldProperty in oldProperties)

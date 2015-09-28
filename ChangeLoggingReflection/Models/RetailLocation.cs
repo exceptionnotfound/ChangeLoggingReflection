@@ -9,7 +9,7 @@ namespace ChangeLoggingReflection.Models
 {
     public class RetailLocation
     {
-        [PrimaryKey]
+        [LoggingPrimaryKey]
         public int Id { get; set; }
         public DateTime DateOpened { get; set; }
         [IgnoreLogging]

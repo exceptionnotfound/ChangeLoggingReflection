@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChangeLoggingReflection.Attributes
 {
-    public class PrimaryKeyAttribute : Attribute
+    public class LoggingPrimaryKeyAttribute : Attribute
     {
     }
 }
