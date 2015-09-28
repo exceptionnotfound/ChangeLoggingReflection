@@ -11,20 +11,30 @@ namespace ChangeLoggingReflection.Services
 {
     public class ChangeLogService
     {
-        public List<ChangeLog> GetChanges(object oldEntry, object newEntry, Type type)
+        public List<ChangeLog> GetChanges(object oldEntry, object newEntry)
         {
             List<ChangeLog> logs = new List<ChangeLog>();
 
-            var oldProperties = oldEntry.GetType().GetProperties();
-            var newProperties = newEntry.GetType().GetProperties();
+            var oldType = oldEntry.GetType();
+            var newType = newEntry.GetType();
+            if(oldType != newType)
+            {
+                return logs; //Types don't match, cannot log changes
+            }
+
+            var oldProperties = oldType.GetProperties();
+            var newProperties = newType.GetProperties();
         
             var dateChanged = DateTime.Now;
             var primaryKey = (int)oldProperties.Where(x => Attribute.IsDefined(x, typeof(LoggingPrimaryKeyAttribute))).First().GetValue(oldEntry);
-            var className = type.Name;
+            var className = oldEntry.GetType().Name;
 
             foreach(var oldProperty in oldProperties)
             {
-                var matchingProperty = newProperties.Where(x => !Attribute.IsDefined(x, typeof(IgnoreLoggingAttribute)) && x.Name == oldProperty.Name && x.PropertyType == oldProperty.PropertyType).FirstOrDefault();
+                var matchingProperty = newProperties.Where(x => !Attribute.IsDefined(x, typeof(IgnoreLoggingAttribute)) 
+                                                                && x.Name == oldProperty.Name 
+                                                                && x.PropertyType == oldProperty.PropertyType)
+                                                    .FirstOrDefault();
                 if(matchingProperty == null)
                 {
                     continue;

@@ -32,7 +32,7 @@ namespace ChangeLoggingReflection
             };
 
             ChangeLogService service = new ChangeLogService();
-            var logs = service.GetChanges(oldLocation, newLocation, typeof(RetailLocation));
+            var logs = service.GetChanges(oldLocation, newLocation);
 
             foreach(var log in logs)
             {
